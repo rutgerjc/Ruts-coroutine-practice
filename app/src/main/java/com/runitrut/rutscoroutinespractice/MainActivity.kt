@@ -27,12 +27,14 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-
-
         // This log happens on the MAIN thread, so will be EXECUTED before the coroutine
+        // Since Coroutines don't run on the Main thread, functions with execute first on the Main thread
+        // coroutines happen attached to the main thread, not directly on it.
         Log.d(TAG, "Hello form thread ${Thread.currentThread().name}" )
 
         GlobalScope.launch{
+            // suspend function such as doNetworkCall() and oNetworkCall2() can only be executed with in
+            // coroutine such as, GlobalScope or lifecycle scope
             val networkCallerAnswer = doNetworkCall()
             val networkCallerAnswer2 = doNetworkCall2()
             Log.d(TAG, networkCallerAnswer)
